@@ -1,0 +1,687 @@
+openapi: 3.0.1
+info:
+  title: Shelly Gen1 REST API
+  version: 1.0.0
+paths:
+  /shelly:
+    description: The HTTP method used for performing any of the requests below is intentionally ignored. Most endpoints will always return their specific JSON payload and perform actions if query parameters are specified.
+    get:
+      tags:
+        - common-http-api
+      operationId: http-dialect
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+  /settings:
+    description: 'Represents device configuration: all devices support a set of common features which are described here. Look at the device-specific <code>/settings</code> endpoint to see how each device extends it.'
+    get:
+      tags:
+        - common-http-api
+      operationId: settings
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reset:
+                    type: boolean
+                    description: Will perform a factory reset of the device
+                  ap_roaming_enabled:
+                    type: boolean
+                    description: Enable/disable AP roaming
+                  ap_roaming_threshold:
+                    type: number
+                    description: 'Set AP roaming threshold, <code>dBm</code>'
+                  mqtt_enable:
+                    type: boolean
+                    description: Enable connecting to a MQTT broker
+                  mqtt_server:
+                    type: string
+                    description: 'MQTT broker IP address and port, ex. <code>10.0.0.1:1883</code>'
+                  mqtt_clean_session:
+                    type: boolean
+                    description: MQTT clean session flag
+                  mqtt_retain:
+                    type: boolean
+                    description: MQTT retain flag
+                  mqtt_user:
+                    type: string
+                    description: 'MQTT username, leave empty to disable authentication'
+                  mqtt_pass:
+                    type: string
+                    description: MQTT password
+                  mqtt_id:
+                    type: string
+                    description: 'MQTT ID -- by default this has the form <code>&lt;shellymodel&gt;-&lt;deviceid&gt;</code> e.g. <code>shelly1-B929CC</code>. If you wish to use custom a MQTT ID, it is recommended that it doesn''t exceed 25 characters.'
+                  mqtt_reconnect_timeout_max:
+                    type: number
+                    description: Maximum interval for reconnect attempts
+                  mqtt_reconnect_timeout_min:
+                    type: number
+                    description: Minimum interval for reconnect attempts
+                  mqtt_keep_alive:
+                    type: number
+                    description: MQTT keep alive period in seconds
+                  mqtt_update_period:
+                    type: number
+                    description: 'Periodic update in seconds, <code>0</code> to disable'
+                  mqtt_max_qos:
+                    type: number
+                    description: Max value of QOS for MQTT packets
+                  coiot_enable:
+                    type: boolean
+                    description: Enable/disable CoIoT
+                  coiot_update_period:
+                    type: number
+                    description: Update period of CoIoT messages <code>15..65535s</code>
+                  coiot_peer:
+                    type: string
+                    description: 'Set to either <code>mcast</code> to switch CoIoT to multicast or to <code>ip[:port]</code> to switch CoIoT to unicast (<code>port</code> is optional, default is 5683)'
+                  sntp_server:
+                    type: string
+                    description: Time server host to be used instead of the default <code>time.google.com</code>. An empty value disables timekeeping and requires reboot to apply.
+                  name:
+                    type: string
+                    description: User-configurable device name
+                  discoverable:
+                    type: boolean
+                    description: Set whether device should be discoverable (i.e. visible)
+                  timezone:
+                    type: string
+                    description: Timezone identifier
+                  lat:
+                    type: number
+                    description: 'Degrees latitude in decimal format, South is negative'
+                  lng:
+                    type: number
+                    description: 'Degrees longitude in decimal format, <code>-180°..180°</code>'
+                  tzautodetect:
+                    type: boolean
+                    description: Set this to <code>false</code> if you want to set custom geolocation (<code>lat</code> and <code>lng</code>) or custom <code>timezone</code>.
+                  tz_utc_offset:
+                    type: number
+                    description: UTC offset
+                  tz_dst:
+                    type: number
+                    description: Daylight saving time <code>0/1</code>
+                  tz_dst_auto:
+                    type: number
+                    description: Auto update daylight saving time <code>0/1</code>
+                  debug_enable:
+                    type: boolean
+                    description: Enable/disable debug file logger
+                  allow_cross_origin:
+                    type: boolean
+                    description: Allow/forbid HTTP Cross-Origin Resource Sharing
+                  wifirecovery_reboot_enabled:
+                    type: boolean
+                    description: 'Enable/disbale WiFi-Recovery reboot. Only applicable for Shelly 1/1PM, Shelly 2, Shelly 2.5, Shelly Plug/PlugS, Shelly EM, Shelly 3EM'
+    parameters:
+      - name: reset
+        in: query
+        description: Will perform a factory reset of the device
+        schema:
+          type: boolean
+      - name: ap_roaming_enabled
+        in: query
+        description: Enable/disable AP roaming
+        schema:
+          type: boolean
+      - name: ap_roaming_threshold
+        in: query
+        description: 'Set AP roaming threshold, <code>dBm</code>'
+        schema:
+          type: number
+      - name: mqtt_enable
+        in: query
+        description: Enable connecting to a MQTT broker
+        schema:
+          type: boolean
+      - name: mqtt_server
+        in: query
+        description: 'MQTT broker IP address and port, ex. <code>10.0.0.1:1883</code>'
+        schema:
+          type: string
+      - name: mqtt_clean_session
+        in: query
+        description: MQTT clean session flag
+        schema:
+          type: boolean
+      - name: mqtt_retain
+        in: query
+        description: MQTT retain flag
+        schema:
+          type: boolean
+      - name: mqtt_user
+        in: query
+        description: 'MQTT username, leave empty to disable authentication'
+        schema:
+          type: string
+      - name: mqtt_pass
+        in: query
+        description: MQTT password
+        schema:
+          type: string
+      - name: mqtt_id
+        in: query
+        description: 'MQTT ID -- by default this has the form <code>&lt;shellymodel&gt;-&lt;deviceid&gt;</code> e.g. <code>shelly1-B929CC</code>. If you wish to use custom a MQTT ID, it is recommended that it doesn''t exceed 25 characters.'
+        schema:
+          type: string
+      - name: mqtt_reconnect_timeout_max
+        in: query
+        description: Maximum interval for reconnect attempts
+        schema:
+          type: number
+      - name: mqtt_reconnect_timeout_min
+        in: query
+        description: Minimum interval for reconnect attempts
+        schema:
+          type: number
+      - name: mqtt_keep_alive
+        in: query
+        description: MQTT keep alive period in seconds
+        schema:
+          type: number
+      - name: mqtt_update_period
+        in: query
+        description: 'Periodic update in seconds, <code>0</code> to disable'
+        schema:
+          type: number
+      - name: mqtt_max_qos
+        in: query
+        description: Max value of QOS for MQTT packets
+        schema:
+          type: number
+      - name: coiot_enable
+        in: query
+        description: Enable/disable CoIoT
+        schema:
+          type: boolean
+      - name: coiot_update_period
+        in: query
+        description: Update period of CoIoT messages <code>15..65535s</code>
+        schema:
+          type: number
+      - name: coiot_peer
+        in: query
+        description: 'Set to either <code>mcast</code> to switch CoIoT to multicast or to <code>ip[:port]</code> to switch CoIoT to unicast (<code>port</code> is optional, default is 5683)'
+        schema:
+          type: string
+      - name: sntp_server
+        in: query
+        description: Time server host to be used instead of the default <code>time.google.com</code>. An empty value disables timekeeping and requires reboot to apply.
+        schema:
+          type: string
+      - name: name
+        in: query
+        description: User-configurable device name
+        schema:
+          type: string
+      - name: discoverable
+        in: query
+        description: Set whether device should be discoverable (i.e. visible)
+        schema:
+          type: boolean
+      - name: timezone
+        in: query
+        description: Timezone identifier
+        schema:
+          type: string
+      - name: lat
+        in: query
+        description: 'Degrees latitude in decimal format, South is negative'
+        schema:
+          type: number
+      - name: lng
+        in: query
+        description: 'Degrees longitude in decimal format, <code>-180°..180°</code>'
+        schema:
+          type: number
+      - name: tzautodetect
+        in: query
+        description: Set this to <code>false</code> if you want to set custom geolocation (<code>lat</code> and <code>lng</code>) or custom <code>timezone</code>.
+        schema:
+          type: boolean
+      - name: tz_utc_offset
+        in: query
+        description: UTC offset
+        schema:
+          type: number
+      - name: tz_dst
+        in: query
+        description: Daylight saving time <code>0/1</code>
+        schema:
+          type: number
+      - name: tz_dst_auto
+        in: query
+        description: Auto update daylight saving time <code>0/1</code>
+        schema:
+          type: number
+      - name: debug_enable
+        in: query
+        description: Enable/disable debug file logger
+        schema:
+          type: boolean
+      - name: allow_cross_origin
+        in: query
+        description: Allow/forbid HTTP Cross-Origin Resource Sharing
+        schema:
+          type: boolean
+      - name: wifirecovery_reboot_enabled
+        in: query
+        description: 'Enable/disbale WiFi-Recovery reboot. Only applicable for Shelly 1/1PM, Shelly 2, Shelly 2.5, Shelly Plug/PlugS, Shelly EM, Shelly 3EM'
+        schema:
+          type: boolean
+  /settings/ap:
+    description: Provides information about the current WiFi AP configuration and allows changes. The returned document is identical to the one returned by <code>/settings</code> in the <code>wifi_ap</code> key. Shelly devices do not allow the SSID for AP WiFi mode to be changed.
+    get:
+      tags:
+        - common-http-api
+      operationId: settings-ap
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  enabled:
+                    type: boolean
+                    description: Set to <code>1</code> to return the device to AP WiFi mode
+                  key:
+                    type: string
+                    description: WiFi password required for association with the device's AP
+    parameters:
+      - name: enabled
+        in: query
+        description: Set to <code>1</code> to return the device to AP WiFi mode
+        schema:
+          type: boolean
+      - name: key
+        in: query
+        description: WiFi password required for association with the device's AP
+        schema:
+          type: string
+  /settings/sta:
+    description: Provides information about the current WiFi Client mode configuration and allows changes. The returned document is identical to the one returned by <code>/settings</code> in the <code>wifi_sta</code> key.
+    get:
+      tags:
+        - common-http-api
+      operationId: settings-sta
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  enabled:
+                    type: boolean
+                    description: Set to <code>1</code> to make STA the current WiFi mode
+                  ssid:
+                    type: string
+                    description: The WiFi SSID to associate with
+                  key:
+                    type: string
+                    description: The password required for associating to the given WiFi SSID
+                  ipv4_method:
+                    type: string
+                    description: <code>dhcp</code> or <code>static</code>
+                  ip:
+                    type: string
+                    description: Local IP address if <code>ipv4_method</code> is <code>static</code>
+                  netmask:
+                    type: string
+                    description: Mask if <code>ipv4_method</code> is <code>static</code>
+                  gateway:
+                    type: string
+                    description: Local gateway IP address if <code>ipv4_method</code> is <code>static</code>
+                  dns:
+                    type: string
+                    description: DNS address if <code>ipv4_method</code> is <code>static</code>
+    parameters:
+      - name: enabled
+        in: query
+        description: Set to <code>1</code> to make STA the current WiFi mode
+        schema:
+          type: boolean
+      - name: ssid
+        in: query
+        description: The WiFi SSID to associate with
+        schema:
+          type: string
+      - name: key
+        in: query
+        description: The password required for associating to the given WiFi SSID
+        schema:
+          type: string
+      - name: ipv4_method
+        in: query
+        description: <code>dhcp</code> or <code>static</code>
+        schema:
+          type: string
+      - name: ip
+        in: query
+        description: Local IP address if <code>ipv4_method</code> is <code>static</code>
+        schema:
+          type: string
+      - name: netmask
+        in: query
+        description: Mask if <code>ipv4_method</code> is <code>static</code>
+        schema:
+          type: string
+      - name: gateway
+        in: query
+        description: Local gateway IP address if <code>ipv4_method</code> is <code>static</code>
+        schema:
+          type: string
+      - name: dns
+        in: query
+        description: DNS address if <code>ipv4_method</code> is <code>static</code>
+        schema:
+          type: string
+  /settings/login:
+    description: 'HTTP authentication configuration: <code>enabled</code> flag, credentials. <code>unprotected</code> is initially false and is used by the user interface to show a warning when auth is disabled. If the user wants to keep using Shelly without a password, they can set <code>unprotected</code> to hide the warning.'
+    get:
+      tags:
+        - common-http-api
+      operationId: settings-login
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  enabled:
+                    type: boolean
+                    description: Whether to require HTTP authentication
+                  unprotected:
+                    type: boolean
+                    description: Whether the user is aware of the risks
+                  username:
+                    type: string
+                    description: Length between 1 and 50
+                  password:
+                    type: string
+                    description: Length between 1 and 50
+    parameters:
+      - name: enabled
+        in: query
+        description: Whether to require HTTP authentication
+        schema:
+          type: boolean
+      - name: unprotected
+        in: query
+        description: Whether the user is aware of the risks
+        schema:
+          type: boolean
+      - name: username
+        in: query
+        description: Length between 1 and 50
+        schema:
+          type: string
+      - name: password
+        in: query
+        description: Length between 1 and 50
+        schema:
+          type: string
+  /settings/cloud:
+    description: 'Can set the <code>enabled</code> (connect to cloud) flag. When set, Shelly will keep a secure connection to Allterco''s servers and allow monitoring and control from anywhere.'
+    get:
+      tags:
+        - common-http-api
+      responses:
+        '200':
+          description: OK
+  /settings/actions:
+    description: 'To restore Shelly Motion to its factory settings, turn the device on if needed, then press and hold the user button for &gt; 10 seconds. The device will reboot with the factory defaults into AP mode.'
+    get:
+      tags:
+        - shelly-motion
+      operationId: shelly-motion-overview
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sleep_time:
+                    type: number
+                    description: 'Set how long the device stays in inactive state, in seconds'
+                  motion_sensitivity:
+                    type: number
+                    description: 'Set motion sensitivity, <code>1..256</code>'
+                  motion_blind_time_minutes:
+                    type: number
+                    description: 'Set blind time, <code>1..1440</code>'
+                  motion_pulse_count:
+                    type: number
+                    description: 'Set pulse count, <code>1..4</code>'
+                  motion_operating_mode:
+                    type: number
+                    description: 'Set operating mode, one of (Any/Dark/Twilight/Bright) <code>0..3</code>'
+                  motion_enable:
+                    type: boolean
+                    description: Enable/disable motion detection
+                  dark_threshold:
+                    type: number
+                    description: Set illumination level threshold for dark condition
+                  twilight_threshold:
+                    type: number
+                    description: Set illumination level threshold for twilight condition
+                  tamper_sensitivity:
+                    type: number
+                    description: 'Set tamper (vibration) detection threshold. Lower value sets higher sensitivity. <code>1..127</code>, <code>0</code> - for disabled'
+                  led_status_disable:
+                    type: boolean
+                    description: Disable LEDs on device if set. <code>true</code> or <code>false</code>.
+                  schedule:
+                    type: boolean
+                    description: Enable or disable schedules and sunrise/sunset commands for this channel
+                  schedule_rules:
+                    type: array
+                    items:
+                      type: string
+                    description: 'Rules for schedule activation, e.g. <code>0000-0123456-on</code>'
+    parameters:
+      - name: sleep_time
+        in: query
+        description: 'Set how long the device stays in inactive state, in seconds'
+        schema:
+          type: number
+      - name: motion_sensitivity
+        in: query
+        description: 'Set motion sensitivity, <code>1..256</code>'
+        schema:
+          type: number
+      - name: motion_blind_time_minutes
+        in: query
+        description: 'Set blind time, <code>1..1440</code>'
+        schema:
+          type: number
+      - name: motion_pulse_count
+        in: query
+        description: 'Set pulse count, <code>1..4</code>'
+        schema:
+          type: number
+      - name: motion_operating_mode
+        in: query
+        description: 'Set operating mode, one of (Any/Dark/Twilight/Bright) <code>0..3</code>'
+        schema:
+          type: number
+      - name: motion_enable
+        in: query
+        description: Enable/disable motion detection
+        schema:
+          type: boolean
+      - name: dark_threshold
+        in: query
+        description: Set illumination level threshold for dark condition
+        schema:
+          type: number
+      - name: twilight_threshold
+        in: query
+        description: Set illumination level threshold for twilight condition
+        schema:
+          type: number
+      - name: tamper_sensitivity
+        in: query
+        description: 'Set tamper (vibration) detection threshold. Lower value sets higher sensitivity. <code>1..127</code>, <code>0</code> - for disabled'
+        schema:
+          type: number
+      - name: led_status_disable
+        in: query
+        description: Disable LEDs on device if set. <code>true</code> or <code>false</code>.
+        schema:
+          type: boolean
+      - name: schedule
+        in: query
+        description: Enable or disable schedules and sunrise/sunset commands for this channel
+        schema:
+          type: boolean
+      - name: schedule_rules
+        in: query
+        description: 'Rules for schedule activation, e.g. <code>0000-0123456-on</code>'
+        schema:
+          type: array
+          items:
+            type: string
+  /status:
+    description: 'Encapsulates current device status information. While settings can generally be modified and don''t react to the environment, this endpoint provides information about transient data which may change due to external conditions.'
+    get:
+      tags:
+        - common-http-api
+      operationId: status
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+  /reboot:
+    description: When requested will cause a reboot of the device.
+    get:
+      tags:
+        - common-http-api
+      responses:
+        '200':
+          description: OK
+  /ota:
+    description: Provides information about the device firmware version and the ability to trigger an over-the-air update.
+    get:
+      tags:
+        - common-http-api
+      operationId: ota
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+                    description: Run firmware update from specified URL
+                  update:
+                    type: boolean
+                    description: Run firmware update from default URL
+                  beta:
+                    type: boolean
+                    description: Run firmware update from beta URL (if available)
+    parameters:
+      - name: url
+        in: query
+        description: Run firmware update from specified URL
+        schema:
+          type: string
+      - name: update
+        in: query
+        description: Run firmware update from default URL
+        schema:
+          type: boolean
+      - name: beta
+        in: query
+        description: Run firmware update from beta URL (if available)
+        schema:
+          type: boolean
+  /ota/check:
+    description: Manual check for new firmware version.
+    get:
+      tags:
+        - common-http-api
+      operationId: ota-check
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+  /wifiscan:
+    description: Only available when in AP mode. Starts a WiFi scan and provides information about found networks.
+    get:
+      tags:
+        - common-http-api
+      operationId: wifiscan
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+  /debug/log:
+    description: Retrieve debug log file 0
+    get:
+      tags:
+        - common-http-api
+      responses:
+        '200':
+          description: OK
+  /debug/log1:
+    description: Retrieve debug log file 1
+    get:
+      tags:
+        - common-http-api
+      responses:
+        '200':
+          description: OK
+  /cit/d:
+    description: Get CoIoT description package over HTTP
+    get:
+      tags:
+        - common-http-api
+      responses:
+        '200':
+          description: OK
+  /sta_cache_reset:
+    description: 'Reset STA cache: only applicable on devices which support STA caching (battery operated devices Shelly Door/Window 1/2, Shelly H&amp;T, Shelly Smoke, Shelly Flood, Shelly Button1)'
+    get:
+      tags:
+        - common-http-api
+      responses:
+        '200':
+          description: OK
+  /poweroff:
+    description: Requesting this endpoint will power off the device. It can be turned back on by pressing the user button.
+    get:
+      tags:
+        - shelly-motion
+      responses:
+        '200':
+          description: OK

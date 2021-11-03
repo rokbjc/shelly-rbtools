@@ -1,0 +1,89 @@
+<!-- HTML for static distribution bundle build -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Swagger UI</title>
+    <link rel="stylesheet" type="text/css" href="./swagger-ui.css" />
+    <link rel="icon" type="image/png" href="./favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="./favicon-16x16.png" sizes="16x16" />
+    <style>
+      html
+      {
+        box-sizing: border-box;
+        overflow: -moz-scrollbars-vertical;
+        overflow-y: scroll;
+      }
+
+      *,
+      *:before,
+      *:after
+      {
+        box-sizing: inherit;
+      }
+
+      body
+      {
+        margin:0;
+        background: #fafafa;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="swagger-ui"></div>
+
+    <script src="./swagger-ui-bundle.js" charset="UTF-8"> </script>
+    <script src="./swagger-ui-standalone-preset.js" charset="UTF-8"> </script>
+    <script>
+    window.onload = function() {
+      // Begin Swagger UI call region
+      const ui = SwaggerUIBundle({
+        urls: [
+        "../swagger/swagger-shelly-family-overview.yaml",
+        "../swagger/swagger-mqtt-support.yaml",
+        "../swagger/swagger-coiot-protocol.yaml",
+        "../swagger/swagger-shelly1-shelly1pm.yaml",
+        "../swagger/swagger-shelly1l.yaml",
+        "../swagger/swagger-shelly2.yaml",
+        "../swagger/swagger-shelly2-5.yaml",
+        "../swagger/swagger-shelly-motion.yaml",
+        "../swagger/swagger-shelly4pro.yaml",
+        "../swagger/swagger-shelly-plug-plugs.yaml",
+        "../swagger/swagger-shelly-i3.yaml",
+        "../swagger/swagger-shelly-button1.yaml",
+        "../swagger/swagger-shelly-bulb.yaml",
+        "../swagger/swagger-shelly-vintage.yaml",
+        "../swagger/swagger-shelly-duo.yaml",
+        "../swagger/swagger-shelly-bulb-rgbw.yaml",
+        "../swagger/swagger-shelly-rgbw2-color.yaml",
+        "../swagger/swagger-shelly-rgbw2-white.yaml",
+        "../swagger/swagger-shelly-dimmer-1-2.yaml",
+        "../swagger/swagger-shelly-sense.yaml",
+        "../swagger/swagger-shelly-h-amp-t.yaml",
+        "../swagger/swagger-shelly-smoke.yaml",
+        "../swagger/swagger-shelly-flood.yaml",
+        "../swagger/swagger-shelly-door-window-1-2.yaml",
+        "../swagger/swagger-shelly-gas.yaml",
+        "../swagger/swagger-shelly-uni.yaml",
+        "../swagger/swagger-shelly-em.yaml",
+        "../swagger/swagger-shelly-3em.yaml",
+        ],
+        dom_id: '#swagger-ui',
+        deepLinking: true,
+        presets: [
+          SwaggerUIBundle.presets.apis,
+          SwaggerUIStandalonePreset
+        ],
+        plugins: [
+          SwaggerUIBundle.plugins.DownloadUrl
+        ],
+        layout: "StandaloneLayout"
+      });
+      // End Swagger UI call region
+
+      window.ui = ui;
+    };
+  </script>
+  </body>
+</html>
