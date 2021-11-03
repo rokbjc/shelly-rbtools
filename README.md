@@ -16,9 +16,9 @@ Contains sources written in .NET Core.
 ### `/swagger`
 
 Contains generated swagger files grouped by device type.
-### `/swagger-ui`
+### `/docs`
 
-Contains [UI](swagger-ui/index.html) for generated swagger definitions.
+Contains [UI](docs/index.html) for generated swagger definitions.
 
 
 
